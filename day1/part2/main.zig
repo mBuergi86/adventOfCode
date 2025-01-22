@@ -1,4 +1,5 @@
 const std = @import("std");
+const readFileToBuffer = @import("readfile.zig").readFileToBuffer;
 
 pub fn main() !void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
@@ -59,12 +60,4 @@ pub fn main() !void {
     }
 
     std.debug.print("Result: {d}\n", .{result});
-}
-
-fn readFileToBuffer(file_path: []const u8, allocator: std.mem.Allocator) ![]u8 {
-    const file = try std.fs.cwd().openFile(file_path, .{});
-    defer file.close();
-
-    const buffer = try file.readToEndAlloc(allocator, 1024 * 1024);
-    return buffer;
 }
